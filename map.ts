@@ -229,6 +229,25 @@ export class Map<E> implements IMap<E> {
         }
         return null;
     }
+
+    /**
+     * Concat(otherMap, replace?)
+     * 
+     * @function concat()
+     * @param otherMap BasicMap<E>
+     * @param replace boolean = false
+     * @returns void
+     * @description Adding other map elements to current map.
+     * By default, if the other map key exists in current map
+     * it will not change. When replace param is set to true,
+     * then the current map element will be replaced be other
+     * map element
+     */
+    public concat(otherMap: BasicMap<E>, replace: boolean = false): void {
+        for (let key in otherMap) {
+            this[key] = replace ? otherMap[key] : this[key];
+        }
+    }
 }
 
 /**
@@ -325,4 +344,5 @@ export interface IMap<E> extends BasicMap<E> {
     includesKey(key: string): boolean;
     includes(value: E, compare?: (mapEl: E, searchEl: E) => boolean): boolean;
     keyOf(value: E, compare?: (mapEl: E, searchEl: E) => boolean): string;
+    concat(otherMap: BasicMap<E>): void;
 }
