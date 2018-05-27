@@ -1,7 +1,9 @@
+import { BasicMap, UtilityMap, GuardedMap } from './index';
+
 /**
  * @class Map<E>
- * @type IMap<E>
- * @implements interface IMap<E>
+ * @type UtilityMap<E>
+ * @implements UtilityMap<E>, BasicMap<E>
  * @description
  * Type parameter E is the type of elements.
  * All keys are type of string.
@@ -9,11 +11,18 @@
  * with some utils which make working with it easy as
  * working with arrays.
  * 
+ * Because it implements BasicMap<E> interface, you can
+ * use it everywhere you use standard key: value objects.
+ * 
+ * You can create Map<E> by Maps factory methods or
+ * new Map<E>, by Maps factory method is a recommended way.
+ * 
+ * 
  * @author Adam Filipek
- * @version 0.1.0
+ * @version 0.2.0
  * 
  */
-export class Map<E> implements IMap<E> {
+export class Map<E> implements UtilityMap<E>, BasicMap<E> {
 
     /**
      * @property [key]
@@ -39,6 +48,20 @@ export class Map<E> implements IMap<E> {
     public add(key: string, value: E): void {
         if (this[key]) throw new Error(`Property '${key}' is set, use set() instead`);
         this[key] = value;
+    }
+
+    /**
+     * Get(key)
+     * 
+     * @param key string
+     * @returns E
+     * @description Get value of element for given key
+     * @throws Error -when the element doesn`t exists or when the element is function
+     */
+    public get(key: string): E {
+        if (!this[key]) throw new Error(`Property '${key}' is not set, use add(key, value) to add new element`);
+        if (typeof this[key] == 'function') throw new Error(`Property '${key}' is a function`);
+        return <E> this[key];
     }
 
     /**
@@ -184,7 +207,7 @@ export class Map<E> implements IMap<E> {
      * Default compare method is === operator.
      * @example
      * basicMap = { label: 'something', ll: 'something2' }
-     * const map = Maps.fromMapLikeObject<string>(basicMap);
+     * const map = Maps.mapFromBasicMap<string>(basicMap);
      * map.includes('something', (a, b) => a === b); // TRUE (=== comparation is default)
      */
     public includes(value: E, compare?: (mapEl: E, searchEl: E) => boolean): boolean {
@@ -234,7 +257,7 @@ export class Map<E> implements IMap<E> {
      * Concat(otherMap, replace?)
      * 
      * @function concat()
-     * @param otherMap BasicMap<E>
+     * @param otherMap UtilityMap<E>
      * @param replace boolean = false
      * @returns void
      * @description Adding other map elements to current map.
@@ -243,106 +266,77 @@ export class Map<E> implements IMap<E> {
      * then the current map element will be replaced be other
      * map element
      */
-    public concat(otherMap: BasicMap<E>, replace: boolean = false): void {
-        for (let key in otherMap) {
-            this[key] = replace ? otherMap[key] : this[key];
-        }
-    }
-}
-
-/**
- * @class Maps
- * @description
- * Class with static generic factory methods to create Map<E> objects
- * 
- * @author Adam Filipek
- * @version 0.1.0
- */
-export class Maps {
-
-    /**
-     * Create<E>()
-     * 
-     * @function create<E>()
-     * @returns Map<E>
-     * @description Creating new empty Map
-     */
-    public static create<E>(): Map<E> {
-        return new Map<E>();
-    }
-
-    /**
-     * From Array<E> (array, keyPrefix)
-     * 
-     * @function fromArray<E>()
-     * @param array Array<E>
-     * @param keyPrefix(optional) string
-     * @returns Map<E>
-     * @description Creating new Map with values from given array.
-     * Second param is optional and it`s a prefix for keys.
-     * By default keys are array indexes converted to strings.
-     */
-    public static fromArray<E>(array: Array<E>, keyPrefix?: string): Map<E> {
-        const map = new Map<E>();
-        array.forEach((el: E, i: number) => {
-            map.add(keyPrefix ? i.toString() + keyPrefix : i.toString(), el);
+    public concat(otherMap: UtilityMap<E>, replace: boolean = false): void {
+        otherMap.forEach((value, key) => {
+            this[key] = replace ? value : this[key]; 
         });
-        return map;
     }
 
     /**
-     * From Map Like Object<E>(object)
-     * 
-     * @function fromMapLikeObject()
-     * @param object BasicMap<E>
-     * @returns Map<E>
-     * @description Creating new Map object from standard key: value object
-     * which is described by BasicMap<E> interface. Use it to take advantage
-     * from useful Map<E> methods.
+     * Equals(otherMap)
+     *
+     * @function equals()
+     * @param otherMap UtilityMap<E>
+     * @returns boolean
+     * @description Checking if other map is equal to current map.
+     * Other map could be both GuardedMap<E> or Map<E>
      */
-    public static fromMapLikeObject<E>(object: BasicMap<E>): Map<E> {
-        const map = new Map<E>();
-        for (let key in object) {
-            map.add(key, <E> object[key]);
-        }
-        return map;
+    public equals(otherMap: UtilityMap<E>): boolean {
+        // compare size
+        if (this.size() !== otherMap.size()) return false;
+        otherMap.forEach((value, key) => {
+            // compare key
+            if (!this[key]) return false;
+            // compare value
+            if (this[key] !== value) return false;
+        });
+        return true;
     }
-}
 
-/**
- * Interface BasicMap<E>
- *
- * Type parameter E is the type of elements.
- * All keys are type of string.
- *
- * It`s shorthand interface for map like objects.
- */
-export interface BasicMap<E> {
-    [key: string]: E | Function;
-}
+    /**
+     * To JSON()
+     * 
+     * @function toJSON()
+     * @returns string
+     * @description Converting map to JSON string
+     */
+    public toJSON(): string {
+        return JSON.stringify(this.toBasicMap());
+    }
 
-/**
- * Interface IMap<E>
- * 
- * Type parameter E is the type of elements.
- * All keys are type of string.
- * 
- * It`s declaration of Map<E> methods.
- * 
- * @extends BasicMap<E>
- * 
- */
-export interface IMap<E> extends BasicMap<E> {
-    add(key: string, value: E): void;
-    remove(key: string): void;
-    size(): number;
-    set(key: string, value: E): void;
-    forEach(each: (element: E, key?: string) => void): void;
-    toObjectsArray(): Array<{key: string, value: E}>;
-    keysToArray(): Array<string>;
-    valuesToArray(): Array<E>
-    includesKey(key: string): boolean;
-    includes(value: E, compare?: (mapEl: E, searchEl: E) => boolean): boolean;
-    keyOf(value: E, compare?: (mapEl: E, searchEl: E) => boolean): string;
-    concat(otherMap: BasicMap<E>): void;
+    /**
+     * To Basic Map()
+     * 
+     * @function toBasicMap()
+     * @returns BasicMap<E>
+     * @description Converting map to standard key: value object
+     */
+    public toBasicMap(): BasicMap<E> {
+        let basic: BasicMap<E> = {};
+        if (this.size() === 0) {
+            return basic;
+        }
+        this.forEach((value, key) => {
+            basic[key] = value;
+        });
+        return basic;
+    }
+
+    /**
+     * To Guarded Map()
+     * 
+     * @function toGuardedMap()
+     * @returns GuardedMap<E>
+     * @description Converting map to GuardedMap
+     */
+    public toGuardedMap(): GuardedMap<E> {
+        let guarded: GuardedMap<E> = new GuardedMap<E>();
+        if (this.size() === 0) {
+            return guarded;
+        }
+        this.forEach((value, key) => {
+            guarded.add(key, value);
+        });
+        return guarded;
+    }
 }
