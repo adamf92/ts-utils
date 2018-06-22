@@ -1,7 +1,7 @@
 import { GuardedMap, Map } from './index';
 
 /**
- * Interface BasicMap<E>
+ * @interface BasicMap<E>
  *
  * Type parameter E is the type of elements.
  * All keys are type of string.
@@ -14,7 +14,7 @@ export interface BasicMap<E> {
 
 
 /**
- * Interface UtilityMap<E>
+ * @interface UtilityMap<E>
  * 
  * Type parameter E is the type of elements.
  * All keys are type of string.
@@ -37,12 +37,19 @@ export interface UtilityMap<E> {
     keyOf(value: E, compare?: (mapEl: E, searchEl: E) => boolean): string;
     concat(otherMap: UtilityMap<E>, replace: boolean): void;
     equals(otherMap: UtilityMap<E>): boolean;
+    every(test: (element: E, key?: string, thisMap?: UtilityMap<E>) => boolean): boolean;
+    some(test: (element: E, key?: string, thisMap?: UtilityMap<E>) => boolean): boolean;
     toJSON(): string; 
     toBasicMap?(): BasicMap<E>;
     toGuardedMap?(): GuardedMap<E>;
     toMap?(): Map<E>;
 }
 
+/**
+ * @interface GuardedMapElement<E>
+ * 
+ * Element of guarded map
+ */
 export interface GuardedMapElement<E> {
     key: string;
     value: E;

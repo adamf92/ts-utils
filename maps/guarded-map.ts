@@ -1,9 +1,9 @@
 import { UtilityMap, GuardedMapElement, BasicMap, Map } from './index';
 
 /**
- * @class GuardedMap<E>
- * @type UtilityMap<E>
- * @implements UtilityMap<E>
+ * @class GuardedMap
+ * @type {UtilityMap<E>}
+ * @implements {UtilityMap<E>}
  * @description
  * GuardedMap<E> haven`t got standard public properties,
  * so its elements are only available by methods.
@@ -22,17 +22,21 @@ import { UtilityMap, GuardedMapElement, BasicMap, Map } from './index';
  */
 export class GuardedMap<E> implements UtilityMap<E> {
 
+    /**
+     * @property {_elements}
+     * @description Array of Guarded Map Elements
+     * @type {Array<GuardedMapElement<E>>}
+     */
     private _elements: Array<GuardedMapElement<E>> = [];
 
     /**
      * Add(key, value)
      * 
-     * @function add()
-     * @param key string
-     * @param value E
-     * @returns void
+     * @param {string} key
+     * @param {E} value 
+     * @returns {void}
      * @description Adds new element to GuardedMap<E>
-     * @throws Error - when the key exists
+     * @throws {Error} - when the key exists
      */
     public add(key: string, value: E): void {
         if (this._elements.findIndex(e => e.key === key) !== -1) {
@@ -44,10 +48,11 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Get(key)
      * 
-     * @param key string
-     * @returns E
+     * @public
+     * @param {string} key
+     * @returns {E}
      * @description Get value of element for given key
-     * @throws Error -when the element doesn`t exists
+     * @throws {Error} -when the element doesn`t exists
      */
     public get(key: string): E {
         if (this._elements.findIndex(e => e.key == key) === -1) {
@@ -59,11 +64,10 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Remove(key)
      * 
-     * @function remove()
-     * @param key string
-     * @returns void
+     * @param {string} key
+     * @returns {void}
      * @description Removes element with specified key from map
-     * @throws Error - when the key doesn`t exists
+     * @throws {Error} - when the key doesn`t exists
      */
     public remove(key: string): void {
         if (this._elements.findIndex(e => e.key == key) === -1) {
@@ -75,8 +79,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Size()
      * 
-     * @function size()
-     * @returns number
+     * @returns {number}
      * @description Returns number of elements in map (without methods)
      */
     public size(): number {
@@ -86,12 +89,11 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Set(key, value)
      *
-     * @function set()
-     * @param key string
-     * @param value E
-     * @returns void
+     * @param {string} key
+     * @param {E} value
+     * @returns {void}
      * @description Changes the value of element with given key
-     * @throws Error - when the key doesn`t exists
+     * @throws {Error} - when the key doesn`t exists
      */
     public set(key: string, value: E): void {
         if (this._elements.findIndex(e => e.key == key) === -1) {
@@ -108,9 +110,8 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * For Each(each)
      * 
-     * @function forEach()
-     * @param each (element: E, key?: string) => void
-     * @returns void
+     * @param {(element: E, key?: string) => void } each
+     * @returns {void}
      * @description Executing given function for every element in map
      */
     public forEach(each: (element: E, key?: string) => void): void {
@@ -122,8 +123,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * To Objects Array()
      * 
-     * @function toObjectsArray()
-     * @returns Array<{key: string, value: E}>
+     * @returns {Array<{key: string, value: E}>}
      * @description Returns new Array of objects with key: string and value: E properties
      */
     public toObjectsArray(): { key: string; value: E; }[] {
@@ -133,8 +133,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Keys To Array()
      * 
-     * @function keysToArray()
-     * @returns Array<string>
+     * @returns {Array<string>}
      * @description Returns new Array of elements keys
      */
     public keysToArray(): string[] {
@@ -144,8 +143,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Values To Array()
      * 
-     * @function valuesToArray()
-     * @returns Array<E>
+     * @returns {Array<E>}
      * @description Returns new Array of elements values
      */
     public valuesToArray(): E[] {
@@ -155,9 +153,8 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Includes Key (key)
      * 
-     * @function includesKey()
-     * @param key string
-     * @returns boolean
+     * @param {string} key
+     * @returns {boolean}
      * @description Returns true if map has given key
      */
     public includesKey(key: string): boolean {
@@ -171,16 +168,15 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Includes(value, compare?)
      * 
-     * @function includes()
-     * @param value E
-     * @param compare(optional) (mapEl: E, searchEl: E) => boolean
-     * @returns boolean
+     * @param {E} value
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {boolean}
      * @description Returns true if map has given value.
      * Second param is optional and it`s a compare function
      * which takes map element value and search element value
      * as params and returns true if they are equal.
      * Default compare method is === operator.
-     * @example
+     * @example 
      * basicMap = { label: 'something', ll: 'something2' }
      * const map = Maps.guardedMapFromBasicMap<string>(basicMap);
      * map.includes('something', (a, b) => a === b); // TRUE (=== comparation is default)
@@ -201,10 +197,9 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Key Of (value, compare?)
      *
-     * @function keyOf()
-     * @param value E
-     * @param compare(optional) (mapEl: E, searchEl: E) => boolean
-     * @returns string | null
+     * @param {E} value
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {string | null}
      * @description Returns key of element for given value.
      * Second param is optional and it`s a compare function
      * which takes map element value and search element value
@@ -231,10 +226,9 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Concat(otherMap, replace?)
      * 
-     * @function concat()
-     * @param otherMap UtilityMap<E>
-     * @param replace boolean = false
-     * @returns void
+     * @param {UtilityMap<E>} otherMap
+     * @param {boolean} replace default false
+     * @returns {void}
      * @description Adding other map elements to current map.
      * By default, if the other map key exists in current map
      * it will not change. When replace param is set to true,
@@ -256,29 +250,69 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * Equals(otherMap)
      *
-     * @function equals()
-     * @param otherMap UtilityMap<E>
-     * @returns boolean
+     * @param {UtilityMap<E>} otherMap
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {boolean}
      * @description Checking if other map is equal to current map.
      * Other map could be both GuardedMap<E> or Map<E>
+     * Second param is optional and it`s a compare function
+     * which takes map element value and otherMap element value
+     * as params and returns true if they are equal.
+     * Default compare method is === operator.
      */
-    public equals(otherMap: UtilityMap<E>): boolean {
+    public equals(otherMap: UtilityMap<E>, compare?: (mapEl: E, searchEl: E) => boolean): boolean {
+        let check: boolean = true;
         // compare size
         if (this.size() !== otherMap.size()) return false;
         otherMap.forEach((value, key) => {
             // compare key
-            if (!this.includesKey(key)) return false;
+            if (!this.includesKey(key)) check = false;
             // compare value
-            if (this.get(key) !== value) return false;
+            if (!compare || !compare(this.get(key), value)) {
+                check = false;
+            } else if (this.get(key) !== value) {
+                check = false;
+            }
         });
         return true;
     }
 
     /**
+     * Every(test)
+     *
+     * @param {(element: E, key?: string, thisMap?: GuardedMap<E>) => boolean} test
+     * @returns {boolean}
+     * @description Check if every item in Map passes given test
+     */
+    public every(test: (element: E, key?: string, thisMap?: GuardedMap<E>) => boolean): boolean {
+        for (let el of this._elements) {
+            if (!test(el.value, el.key, this)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Some(test)
+     *
+     * @param {(element: E, key?: string, thisMap?: GuardedMap<E>) => boolean} test
+     * @returns {boolean}
+     * @description Check if almost one item in Map passes given test
+     */
+    public some(test: (element: E, key?: string, thisMap?: GuardedMap<E>) => boolean): boolean {
+        for (let el of this._elements) {
+            if (test(el.value, el.key, this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * To JSON()
      * 
-     * @function toJSON()
-     * @returns string
+     * @returns {string}
      * @description Converting guarded map to JSON string
      */
     public toJSON(): string {
@@ -288,8 +322,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * To Basic Map()
      * 
-     * @function toBasicMap()
-     * @returns BasicMap<E>
+     * @returns {BasicMap<E>}
      * @description Converting guarded map to standard key: value object
      */
     public toBasicMap(): BasicMap<E> {
@@ -306,8 +339,7 @@ export class GuardedMap<E> implements UtilityMap<E> {
     /**
      * To Map()
      * 
-     * @function toMap()
-     * @returns Map<E>
+     * @returns {Map<E>}
      * @description converting guarded map to Map
      */
     public toMap(): Map<E> {

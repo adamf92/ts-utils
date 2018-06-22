@@ -14,8 +14,7 @@ export class Maps {
     /**
      * CreateMap<E>()
      * 
-     * @function createMap<E>()
-     * @returns Map<E>
+     * @returns {Map<E>}
      * @description Creating new empty Map
      */
     public static createMap<E>(): Map<E> {
@@ -25,8 +24,7 @@ export class Maps {
     /**
      * CreateGuardedMap<E>()
      * 
-     * @function createGuardedMap<E>()
-     * @returns GuardedMap<E>
+     * @returns {GuardedMap<E>}
      * @description Creating new empty GuardedMap (Map only accessible by methods)
      */
     public static createGuardedMap<E>(): GuardedMap<E> {
@@ -36,10 +34,9 @@ export class Maps {
     /**
      * Map From Array<E> (array, keyPrefix)
      * 
-     * @function mapFromArray<E>()
-     * @param array Array<E>
-     * @param keyPrefix(optional) string
-     * @returns Map<E>
+     * @param {Array<E>} array
+     * @param {string} keyPrefix (optional)
+     * @returns {Map<E>}
      * @description Creating new Map with values from given array.
      * Second param is optional and it`s a prefix for keys.
      * By default keys are array indexes converted to strings.
@@ -55,10 +52,9 @@ export class Maps {
     /**
      * Guarded Map From Array<E> (array, keyPrefix)
      * 
-     * @function guardedMapFromArray<E>()
-     * @param array Array<E>
-     * @param keyPrefix(optional) string
-     * @returns GuardedMap<E>
+     * @param {Array<E>} array
+     * @param {string} keyPrefix (optional)
+     * @returns {GuardedMap<E>}
      * @description Creating new GuardedMap with values from given array.
      * Second param is optional and it`s a prefix for keys.
      * By default keys are array indexes converted to strings.
@@ -75,9 +71,8 @@ export class Maps {
     /**
      * Map From Basic Map<E>(object)
      * 
-     * @function mapFromBasicMap<E>()
-     * @param object BasicMap<E>
-     * @returns Map<E>
+     * @param {BasicMap<E>} object
+     * @returns {Map<E>}
      * @description Creating new Map object from standard key: value object
      * which is described by BasicMap<E> interface. Use it to take advantage
      * from useful UtilityMap<E> methods.
@@ -93,9 +88,8 @@ export class Maps {
     /**
      * Guarded Map From Basic Map<E>(object)
      * 
-     * @function guardedMapFromBasicMap<E>()
-     * @param object BasicMap<E>
-     * @returns GuardedMap<E>
+     * @param {BasicMap<E>} object 
+     * @returns {GuardedMap<E>}
      * @description Creating new GuardedMap object from standard key: value object
      * which is described by BasicMap<E> interface. Use it to take advantage
      * from private elements and useful UtilityMap<E> methods.

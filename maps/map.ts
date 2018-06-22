@@ -1,9 +1,9 @@
 import { BasicMap, UtilityMap, GuardedMap } from './index';
 
 /**
- * @class Map<E>
- * @type UtilityMap<E>
- * @implements UtilityMap<E>, BasicMap<E>
+ * @class
+ * @type {UtilityMap<E>}
+ * @implements {UtilityMap<E> | BasicMap<E>}
  * @description
  * Type parameter E is the type of elements.
  * All keys are type of string.
@@ -25,25 +25,24 @@ import { BasicMap, UtilityMap, GuardedMap } from './index';
 export class Map<E> implements UtilityMap<E>, BasicMap<E> {
 
     /**
-     * @property [key]
+     * @property {[key]}
      * @description Definition of Map elements
      * In definition type Function too,
      * but it`s declared only to allow
      * methods declaration. In methods like add()
      * or remove() there`s only E type available.
-     * @type E
+     * @type {E}
      */
     [key: string]: E | Function;
 
     /**
      * Add(key, value)
      * 
-     * @function add()
-     * @param key string
-     * @param value E
-     * @returns void
+     * @param {string} key
+     * @param {E} value
+     * @returns {void}
      * @description Adds new element to Map<E>
-     * @throws Error - when the key exists
+     * @throws {Error} - when the key exists
      */
     public add(key: string, value: E): void {
         if (this[key]) throw new Error(`Property '${key}' is set, use set() instead`);
@@ -53,10 +52,10 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Get(key)
      * 
-     * @param key string
-     * @returns E
+     * @param {string} key
+     * @returns {E}
      * @description Get value of element for given key
-     * @throws Error -when the element doesn`t exists or when the element is function
+     * @throws {Error} -when the element doesn`t exists or when the element is function
      */
     public get(key: string): E {
         if (!this[key]) throw new Error(`Property '${key}' is not set, use add(key, value) to add new element`);
@@ -67,11 +66,10 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Remove(key)
      * 
-     * @function remove()
-     * @param key string
-     * @returns void
+     * @param {string} key
+     * @returns {void}
      * @description Removes element with specified key from map
-     * @throws Error - when the key doesn`t exists
+     * @throws {Error} - when the key doesn`t exists
      */
     public remove(key: string): void {
         if (!this[key]) throw new Error(`Property '${key}' is not set, so cannot remove it`);
@@ -81,8 +79,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Size()
      * 
-     * @function size()
-     * @returns number
+     * @returns {number}
      * @description Returns number of elements in map (without methods)
      */
     public size(): number {
@@ -98,12 +95,11 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Set(key, value)
      *
-     * @function set()
-     * @param key string
-     * @param value E
-     * @returns void
+     * @param {string} key
+     * @param {E} value
+     * @returns {void}
      * @description Changes the value of element with given key
-     * @throws Error - when the key doesn`t exists
+     * @throws {Error} - when the key doesn`t exists
      */
     public set(key: string, value: E): void {
         if (!this[key]) throw new Error(`Property '${key}' is not set, use add() instead`);
@@ -113,9 +109,8 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * For Each(each)
      * 
-     * @function forEach()
-     * @param each (element: E, key?: string) => void
-     * @returns void
+     * @param {(element: E, key?: string) => void} each
+     * @returns {void}
      * @description Executing given function for every element in map
      */
     public forEach(each: (element: E, key?: string) => void): void {
@@ -129,8 +124,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * To Objects Array()
      * 
-     * @function toObjectsArray()
-     * @returns Array<{key: string, value: E}>
+     * @returns {Array<{key: string, value: E}>}
      * @description Returns new Array of objects with key: string and value: E properties
      */
     public toObjectsArray(): Array<{key: string, value: E}> {
@@ -146,8 +140,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Keys To Array()
      * 
-     * @function keysToArray()
-     * @returns Array<string>
+     * @returns {Array<string>}
      * @description Returns new Array of elements keys
      */
     public keysToArray(): Array<string> {
@@ -163,8 +156,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Values To Array()
      * 
-     * @function valuesToArray()
-     * @returns Array<E>
+     * @returns {Array<E>}
      * @description Returns new Array of elements values
      */
     public valuesToArray(): Array<E> {
@@ -180,9 +172,8 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Includes Key (key)
      * 
-     * @function includesKey()
-     * @param key string
-     * @returns boolean
+     * @param {string} key
+     * @returns {boolean}
      * @description Returns true if map has given key
      */
     public includesKey(key: string): boolean {
@@ -196,10 +187,9 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Includes(value, compare?)
      * 
-     * @function includes()
-     * @param value E
-     * @param compare(optional) (mapEl: E, searchEl: E) => boolean
-     * @returns boolean
+     * @param {E} value
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {boolean}
      * @description Returns true if map has given value.
      * Second param is optional and it`s a compare function
      * which takes map element value and search element value
@@ -226,10 +216,9 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Key Of (value, compare?)
      *
-     * @function keyOf()
-     * @param value E
-     * @param compare(optional) (mapEl: E, searchEl: E) => boolean
-     * @returns string | null
+     * @param {E} value
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {string | null}
      * @description Returns key of element for given value.
      * Second param is optional and it`s a compare function
      * which takes map element value and search element value
@@ -256,10 +245,9 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Concat(otherMap, replace?)
      * 
-     * @function concat()
      * @param otherMap UtilityMap<E>
-     * @param replace boolean = false
-     * @returns void
+     * @param {boolean} replace  default false
+     * @returns {void}
      * @description Adding other map elements to current map.
      * By default, if the other map key exists in current map
      * it will not change. When replace param is set to true,
@@ -275,29 +263,73 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * Equals(otherMap)
      *
-     * @function equals()
-     * @param otherMap UtilityMap<E>
-     * @returns boolean
+     * @param {UtilityMap<E>} otherMap
+     * @param {(mapEl: E, searchEl: E) => boolean} compare (optional)
+     * @returns {boolean}
      * @description Checking if other map is equal to current map.
-     * Other map could be both GuardedMap<E> or Map<E>
+     * Other map could be both GuardedMap<E> or Map<E>.
+     * Second param is optional and it`s a compare function
+     * which takes map element value and otherMap element value
+     * as params and returns true if they are equal.
+     * Default compare method is === operator.
      */
-    public equals(otherMap: UtilityMap<E>): boolean {
+    public equals(otherMap: UtilityMap<E>, compare?: (mapEl: E, searchEl: E) => boolean): boolean {
+        let check: boolean = true;
         // compare size
-        if (this.size() !== otherMap.size()) return false;
+        if (this.size() !== otherMap.size()) return false;        
         otherMap.forEach((value, key) => {
             // compare key
-            if (!this[key]) return false;
+            if (!this[key]) check = false;
             // compare value
-            if (this[key] !== value) return false;
+            if (!compare || !compare(<E> this[key], value)) {
+                check = false;
+            } else if (this[key] !== value)  {
+                check = false;
+            }
         });
+        return check;
+    }
+
+    /**
+     * Every(test)
+     *
+     * @param {(element: E, key?: string, thisMap?: Map<E>) => boolean} test
+     * @returns {boolean}
+     * @description Check if every item in Map passes given test
+     */
+    public every(test: (element: E, key?: string, thisMap?: Map<E>) => boolean): boolean {
+        for (let key in this) {
+            if (typeof this[key] !== 'function') {
+                if (!test(<E> this[key], key, this)) {
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+
+    /**
+     * Some(test)
+     *
+     * @param {(element: E, key?: string, thisMap?: Map<E>) => boolean} test
+     * @returns {boolean}
+     * @description Check if almost one item in Map passes given test
+     */
+    public some(test: (element: E, key?: string, thisMap?: Map<E>) => boolean): boolean {
+        for (let key in this) {
+            if (typeof this[key] !== 'function') {
+                if (test(<E> this[key], key, this)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
      * To JSON()
      * 
-     * @function toJSON()
-     * @returns string
+     * @returns {string}
      * @description Converting map to JSON string
      */
     public toJSON(): string {
@@ -307,8 +339,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * To Basic Map()
      * 
-     * @function toBasicMap()
-     * @returns BasicMap<E>
+     * @returns {BasicMap<E>}
      * @description Converting map to standard key: value object
      */
     public toBasicMap(): BasicMap<E> {
@@ -325,8 +356,7 @@ export class Map<E> implements UtilityMap<E>, BasicMap<E> {
     /**
      * To Guarded Map()
      * 
-     * @function toGuardedMap()
-     * @returns GuardedMap<E>
+     * @returns {GuardedMap<E>}
      * @description Converting map to GuardedMap
      */
     public toGuardedMap(): GuardedMap<E> {
