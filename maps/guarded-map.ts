@@ -17,7 +17,7 @@ import { UtilityMap, GuardedMapElement, BasicMap, Map } from './index';
  * All keys are type of string.
  * 
  * @author Adam Filipek
- * @version 0.2.0
+ * @version 0.3.0
  * 
  */
 export class GuardedMap<E> implements UtilityMap<E> {

@@ -7,7 +7,7 @@ import { Map, GuardedMap, BasicMap } from './index';
  * Class with static generic factory methods to create Map<E> objects
  * 
  * @author Adam Filipek
- * @version 0.2.0
+ * @version 0.3.0
  */
 export class Maps {
 

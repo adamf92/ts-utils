@@ -19,7 +19,7 @@ import { BasicMap, UtilityMap, GuardedMap } from './index';
  * 
  * 
  * @author Adam Filipek
- * @version 0.2.0
+ * @version 0.3.0
  * 
  */
 export class Map<E> implements UtilityMap<E>, BasicMap<E> {
